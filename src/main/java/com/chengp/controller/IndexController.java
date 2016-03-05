@@ -3,22 +3,18 @@ package com.chengp.controller;
 import com.chengp.entity.User;
 import com.chengp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.Valid;
+import java.security.Principal;
 
 /**
  * Created by pc on 3/2/16.
@@ -28,9 +24,6 @@ public class IndexController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @RequestMapping("/")
     public String home() {
@@ -46,27 +39,50 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/account/register", method = RequestMethod.POST)
-    public String doRegister(@ModelAttribute User user, Model model, HttpServletRequest request) {
+    public String doRegister(@Valid User user, BindingResult result, Model model
+            , HttpServletRequest request) {
+
+        if (userService.findOne(user.getUsername()) != null) {
+
+            model.addAttribute("error",true);
+            model.addAttribute("valid", true);
+            return "index";
+        }
+        if(result.hasErrors()){
+
+            model.addAttribute("valid", true);
+            return "index";
+        }
+
+        userService.setUserRoleAndEnabled(user, true, "USER");
 
         userService.save(user);
+
+        userService.setAuth(user,request);
+
+
         model.addAttribute("user", user);
 
-        setAuth(user,request);
-
-        return "redirect:/index";
+        return "redirect:/account";
     }
 
-    public void setAuth(User user, HttpServletRequest request) {
+    @RequestMapping("/login")
+    public String showLogin() {
 
-        UsernamePasswordAuthenticationToken token =
-                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
-
-        request.getSession();
-
-        token.setDetails(new WebAuthenticationDetails(request));
-
-        Authentication authentication = authenticationManager.authenticate(token);
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return "account/login";
     }
+
+    @RequestMapping("/account")
+    public String showAccount(Model model, Principal principal) {
+
+        model.addAttribute("username", principal.getName());
+        return "account/index";
+    }
+
+    @RequestMapping("/test")
+    @ResponseBody
+    public String showTest(Principal principal) {
+        return principal.getName();
+    }
+
 }

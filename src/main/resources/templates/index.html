@@ -33,6 +33,7 @@
             color: snow;
         }
     </style>
+
 </head>
 <body>
 
@@ -47,7 +48,7 @@
             <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus
                 commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
             <p>
-                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
+                <button type="button" id="sign_up" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
                     Sign up today
                 </button>
             </p>
@@ -58,8 +59,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel">Join today!</h4>
                     </div>
                     <div class="modal-body">
@@ -67,30 +67,29 @@
                               method="post">
                             <div class="form-group">
                                 <div class="col-sm-10 col-sm-offset-1">
-                                    <input type="text" class="form-control" id="inputUsername" placeholder="Username"
-                                           th:field="*{username}">
+                                    <input type="text" class="form-control" id="inputUsername" placeholder="Username" th:field="*{username}">
+                                    <code th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</code>
+                                    <code th:if="${error}">User already exist!</code>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="col-sm-10 col-sm-offset-1">
-                                    <input type="email" class="form-control" id="inputEmail" placeholder="Email"
-                                           th:field="*{email}">
+                                    <input type="email" class="form-control" id="inputEmail" placeholder="Email" th:field="*{email}">
+                                    <code th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</code>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="col-sm-10 col-sm-offset-1">
-                                    <input type="password" class="form-control" id="inputPassword"
-                                           placeholder="Password"
-                                           th:field="*{password}">
+                                    <input type="password" class="form-control" id="inputPassword" placeholder="Password" th:field="*{password}">
+                                    <code th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</code>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="col-sm-10 col-sm-offset-1">
-                                    <input type="password" class="form-control" id="inputPassword2"
-                                           placeholder="Password again">
+                                    <input type="password" class="form-control" id="inputPassword2" placeholder="Password again">
                                 </div>
                             </div>
 
@@ -122,8 +121,19 @@
 
 <div layout:fragment="content">
 
+
 </div>
 
+
+<div layout:fragment="footer">
+    <div th:if="${valid}">
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#sign_up').trigger('click');
+            });
+        </script>
+    </div>
+</div>
 
 </body>
 </html>

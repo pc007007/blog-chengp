@@ -32,7 +32,7 @@
                     Hello, [[${#httpServletRequest.remoteUser}]]</a>
             </div>
             <div sec:authorize="isAnonymous()">
-                <a class="navbar-brand" href="#" th:href="@{/account}">
+                <a class="navbar-brand" href="#" th:href="@{/index}">
                     Hello</a>
             </div>
         </div>
@@ -117,6 +117,10 @@
         th:src="@{/js/jquery/jquery-1.12.1.min.js}"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
         th:src="@{/js/bootstrapjs/bootstrap.min.js}"></script>
+
+<div layout:fragment="footer">
+    <p>change some footer here.</p>
+</div>
 
 </body>
 </html>
