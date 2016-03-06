@@ -38,7 +38,9 @@ public class UserService {
 
         Set<UserRole> userRoles = new HashSet<UserRole>();
         for (String role:roles) {
-            UserRole userRole = new UserRole(user,role);
+            UserRole userRole = new UserRole();
+            userRole.setUser(user);
+            userRole.setRole(role);
             userRoles.add(userRole);
         }
         user.setUserRole(userRoles);
