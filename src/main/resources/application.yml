@@ -3,14 +3,20 @@ spring:
     cache: false
     mode: LEGACYHTML5
   datasource:
+    type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://localhost:3306/blog
+    pool-name: SpringBootHikariCP
     username: pc
     password: 123456
   jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       naming-strategy: org.hibernate.cfg.EJB3NamingStrategy
     properties:
       hibernate:
         format_sql: true
+
+server:
+#  context-path: /blog

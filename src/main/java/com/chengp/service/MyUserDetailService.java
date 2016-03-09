@@ -28,11 +28,12 @@ public class MyUserDetailService implements UserDetailsService{
 
     @Transactional(readOnly = true)
     @Override
-    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(final String username) {
 
-        com.chengp.entity.User user = userRepository.findByUsername(username);
-        List<GrantedAuthority> authorities =
-                buildUserAuthority(user.getUserRole());
+        com.chengp.entity.User user = userRepository.findByUsername(username)
+                .orElseThrow(()->new UsernameNotFoundException(username));
+
+        List<GrantedAuthority> authorities = buildUserAuthority(user.getUserRole());
 
         return buildUserForAuthentication(user, authorities);
 
@@ -48,10 +49,7 @@ public class MyUserDetailService implements UserDetailsService{
 
         Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
 
-        // Build user's authorities
-        for (UserRole userRole : userRoles) {
-            setAuths.add(new SimpleGrantedAuthority(userRole.getRole()));
-        }
+        userRoles.forEach(userRole -> setAuths.add(new SimpleGrantedAuthority(userRole.getRole())));
 
         List<GrantedAuthority> Result = new ArrayList<GrantedAuthority>(setAuths);
 

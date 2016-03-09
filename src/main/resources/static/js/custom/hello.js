@@ -8,18 +8,20 @@ myapp.controller("Hello",function($scope, $http){
 
     /*$http.get('https://api.steampowered.com/IEconDOTA2_570/GetHeroes/V001/?key=E5A0A27C28A1F857062866825AF10520');*/
 
-    var url = "/IEconDOTA2_570/GetHeroes/V001/?key=E5A0A27C28A1F857062866825AF10520";
+    var url = "/dota2/heroes";
     $http({
         method: 'GET',
         responseType: "json",
         url: url,
-    }).
-    success(function(data) {
+    })
+    .success(function(data) {
 
-        data.result.heroes.forEach(function(entry){
-            entry.name = entry.name.substring(14);
-        });
-        $scope.greeting = data;
+        data.forEach(function(hero){
+
+            hero.pic = "http://cdn.dota2.com/apps/dota2/images/heroes/"+hero.name+"_sb.png";
+        })
+
+        $scope.heroes = data;
     });
 
 });

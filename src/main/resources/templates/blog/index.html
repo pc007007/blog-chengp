@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html ng-app="myapp"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      layout:decorator="layout">
+
+<head>
+    <title th:text="${username}">Blog</title>
+</head>
+<body>
+
+
+<div layout:fragment="header">
+    <div class="container">
+        <div class="page-header">
+            <h2 class="header"><strong>Blog</strong></h2>
+        </div>
+    </div>
+</div>
+
+
+<div layout:fragment="content">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-sm-8 blog-main">
+                <div class="blog-post" th:each="item : ${blog.items}">
+                    <h2 class="blog-post-title" th:text="${item.title}">Sample blog post</h2>
+                    <p class="blog-post-meta" th:text="${#calendars.format(item.pubDate, 'dd MMM yyyy HH:mm')} ">January 1, 2014 by <a href="#">Mark</a></p>
+                    <div th:utext="${item.content}">Content</div>
+                </div><!-- /.blog-post -->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div layout:fragment="footer">
+
+</div>
+
+</body>
+</html>

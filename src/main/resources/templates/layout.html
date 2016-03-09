@@ -9,6 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
           th:href="@{/css/bootstrap/bootstrap.min.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"
+            th:src="@{/js/jquery/jquery-1.12.1.min.js}"></script>
     <link href="/css/custom/sticky-footer-navbar.css" rel="stylesheet"/>
 </head>
 
@@ -28,6 +30,7 @@
                 <a class="navbar-brand" href="#" th:href="@{/account}" th:inline="text">
                     Hello, [[${#httpServletRequest.remoteUser}]]</a>
             </div>
+
             <div sec:authorize="isAnonymous()">
                 <a class="navbar-brand" href="#" th:href="@{/index}">
                     Hello</a>
@@ -41,6 +44,9 @@
                 <li class="active"
                     th:class="${#httpServletRequest.getRequestURI().startsWith('/index') ? 'active':''}"><a
                         href="#" th:href="@{/index}">Home</a></li>
+                <li class="#" sec:authorize="hasRole('ADMIN')"
+                    th:class="${#httpServletRequest.getRequestURI().startsWith('/admin/users') ? 'active':''}"><a
+                        href="#" th:href="@{/admin/users}">Users</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">Account<span class="caret"></span></a>
@@ -79,17 +85,11 @@
                 <div sec:authorize="isAuthenticated()">
                     <form class="navbar-form navbar-right" action="#" th:action="@{/logout}" method="post">
 
-                            <button type="submit" class="btn btn-info">Sign Out</button>
+                        <button type="submit" class="btn btn-info">Sign Out</button>
 
                     </form>
                 </div>
             </div>
-
-            <!--<ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Logout</a></li>
-                </ul>-->
-
-
         </div><!--/.nav-collapse -->
     </div>
 </nav>
@@ -104,19 +104,15 @@
 </div>
 
 
-<footer class="footer">
-    <div class="container">
-        <p class="text-muted">&copy; 2015 Cheng</p>
-    </div>
-</footer>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"
-        th:src="@{/js/jquery/jquery-1.12.1.min.js}"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
         th:src="@{/js/bootstrapjs/bootstrap.min.js}"></script>
 
 <div layout:fragment="footer">
-    <p>change some footer here.</p>
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted">&copy; 2015 Cheng</p>
+        </div>
+    </footer>
 </div>
 
 </body>

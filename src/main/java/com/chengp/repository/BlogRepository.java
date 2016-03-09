@@ -1,16 +1,16 @@
 package com.chengp.repository;
 
-import com.chengp.entity.User;
+import com.chengp.entity.Blog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 /**
- * Created by pc on 3/3/16.
+ * Created by pc on 3/8/16.
  */
 @Repository
-public interface UserRepository extends JpaRepository<User,Long>{
+public interface BlogRepository extends JpaRepository<Blog,Integer> {
 
-    Optional<User> findByUsername(String username);
+    Optional<Blog> findByTitle(String title);
 }

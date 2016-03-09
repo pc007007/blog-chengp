@@ -15,7 +15,7 @@ import java.net.URLConnection;
 @Controller
 public class ProxyController {
 
-    private HttpURLConnection httpURLConnection;
+/*    private HttpURLConnection httpURLConnection;
 
     @RequestMapping("/IEconDOTA2_570/GetHeroes/V001")
     public
@@ -38,5 +38,5 @@ public class ProxyController {
         }
 
         return result.toString();
-    }
+    }*/
 }

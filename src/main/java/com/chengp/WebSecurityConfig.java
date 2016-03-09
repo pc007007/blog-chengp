@@ -3,6 +3,7 @@ package com.chengp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,16 +23,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/index","/account/register","/css/**", "/js/**", "/video/**").permitAll()
+                .antMatchers("/", "/index"
+                            ,"/account/register"
+                            ,"/account/register/available"
+                            ,"/css/**", "/js/**", "/video/**").permitAll()
+                .antMatchers("/admin/**").access("hasRole('ADMIN')")
+                .antMatchers(HttpMethod.DELETE,"/admin/**").access("hasRole('ADMIN')")
                 .anyRequest().authenticated()
-                .and()
+            .and()
                 .formLogin()
                 .defaultSuccessUrl("/account")
                 .loginPage("/login")
                 .permitAll()
-                .and()
+            .and()
                 .logout()
                 .permitAll()
                 .logoutSuccessUrl("/index");
@@ -40,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
-        auth.inMemoryAuthentication().withUser("user").password("123456").roles("USER");
+        auth.inMemoryAuthentication().withUser("user").password("123456").roles("ADMIN");
         auth.userDetailsService(userDetailsService);
     }
 }

@@ -3,6 +3,7 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       layout:decorator="layout">
 
 <head>
@@ -17,10 +18,18 @@
 <div layout:fragment="header">
     <div class="container">
         <div class="page-header">
-            <h2 class="header"><strong>Hero list123</strong></h2>
+            <h2 class="header"><strong>Hero list</strong></h2>
+
+            <div sec:authorize="hasRole('ADMIN')">
+                1.<a href="#" th:href="@{/update/heroes}">update hero information from valve servers</a>
+                <br>
+                2.<a href="#" th:href="@{/update/blog}">update blog information from valve feed</a>
+            </div>
         </div>
+
     </div>
 </div>
+
 
 
 <div layout:fragment="content">
@@ -29,15 +38,14 @@
             <table class="table table-striped table-hover">
                 <thead>
                 <tr>
-                    <td>ID</td>
+                    <td>Hero</td>
                     <td>Name</td>
-                    <td>Skills</td>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="hero in greeting.result.heroes">
-                    <td>{{hero.id}}</td>
-                    <td>{{hero.name}}</td>
+                <tr ng-repeat="hero in heroes">
+                    <td><img class="img-thumbnail" src="{{hero.pic}}"/></td>
+                    <td>{{hero.localized_name}}</td>
                 </tr>
                 </tbody>
             </table>

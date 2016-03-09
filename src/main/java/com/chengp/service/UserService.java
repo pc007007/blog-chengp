@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -61,8 +63,21 @@ public class UserService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    public User findOne(String username) {
+    public Optional<User> findOne(String username) {
 
         return userRepository.findByUsername(username);
+    }
+
+    public boolean findOne(User user){
+        return userRepository.findByUsername(user.getUsername()).isPresent();
+    }
+
+    public List<User> findAll() {
+
+        return userRepository.findAll();
+    }
+
+    public void delete(User user) {
+        userRepository.delete(user);
     }
 }
