@@ -18,7 +18,7 @@ import java.util.List;
 @ToString(exclude = "items")
 public class Blog {
 
-    @Id
+    @Id @GeneratedValue
     private Integer id;
 
     @Column(name = "title")
@@ -30,6 +30,6 @@ public class Blog {
     @Column(name = "publish_date")
     private Date pubDate;
 
-    @OneToMany(mappedBy = "blog")
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL)
     private List<Item> items;
 }

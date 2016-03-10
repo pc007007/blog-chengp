@@ -36,11 +36,11 @@ public class BlogService {
             SyndFeedInput input = new SyndFeedInput();
             SyndFeed feed = input.build(new XmlReader(feedUrl));
 
-            blog.setId(1);
             blog.setTitle(feed.getTitle());
             blog.setPubDate(feed.getPublishedDate());
             blog.setLink(feed.getLink());
 
+            List<Item> items = new ArrayList<Item>(0);
             for (int i = 0; i < 10; i++) {
                 SyndEntryImpl syndEntry = (SyndEntryImpl) feed.getEntries().get(i);
 
@@ -53,13 +53,16 @@ public class BlogService {
                 item.setContent(((SyndContentImpl) syndEntry.getContents().get(0)).getValue());
                 item.setBlog(blog);
 
+                items.add(item);
 /*            List<Item> items = new ArrayList<Item>();
             items.add(item);
             blog.setItems(items);*/
 
-                itemRepository.save(item);
             }
 
+            blog.setItems(items);
+
+            blogRepository.save(blog);
         }catch (Exception ex) {
             ex.printStackTrace();
             System.out.println("ERROR: " + ex.getMessage());
