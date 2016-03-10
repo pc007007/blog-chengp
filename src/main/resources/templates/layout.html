@@ -12,6 +12,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"
             th:src="@{/js/jquery/jquery-1.12.1.min.js}"></script>
     <link href="/css/custom/sticky-footer-navbar.css" rel="stylesheet"/>
+    <script src="#" th:src="@{/js/custom/index.js}"/>
 </head>
 
 <body>
@@ -27,7 +28,7 @@
                 <span class="icon-bar"></span>
             </button>
             <div sec:authorize="isAuthenticated()">
-                <a class="navbar-brand" href="#" th:href="@{/account}" th:inline="text">
+                <a class="navbar-brand" href="#" th:href="@{/account/blog}" th:inline="text">
                     Hello, [[${#httpServletRequest.remoteUser}]]</a>
             </div>
 
@@ -99,8 +100,28 @@
 </div>
 
 
-<div layout:fragment="content">
-    <p>change some context here.</p>
+<div class="container">
+    <div class="row" th:class="${#httpServletRequest.getRequestURI().startsWith('/index') ? 'hidden':''}">
+        <div class="col-md-2" id="leftCol">
+
+            <ul class="nav nav-stacked" id="sidebar">
+                <li><a href="#sec0" th:href="@{/account/blog}">Blog</a></li>
+                <li><a href="#sec1" th:href="@{/account/hero}">Hero</a></li>
+                <li><a href="#sec2" th:href="@{/account/subscribe}">My subscription</a></li>
+                <li><a href="#sec3">Section 3</a></li>
+                <li><a href="#sec4">Section 4</a></li>
+            </ul>
+
+        </div>
+        <div class="col-md-8" id="mainCol">
+
+            <div layout:fragment="content">
+                entern content here
+            </div>
+
+        </div>
+
+    </div>
 </div>
 
 

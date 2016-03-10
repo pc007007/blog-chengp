@@ -69,7 +69,12 @@ public class BlogService {
     }
 
 
-    public Blog findOneByTitle(String title) {
-        return blogRepository.findByTitle(title).orElseThrow(()->new RuntimeException("No such blog"));
+    public Blog findFirstOneByTitle(String title) {
+        return blogRepository.findFirstByTitle(title).orElseThrow(()->new RuntimeException("No such blog"));
+    }
+
+    public Blog findOne(Integer id) {
+
+        return blogRepository.findOne(id);
     }
 }

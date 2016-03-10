@@ -3,7 +3,7 @@ body {
     color: #555;
 }
 
-h1, .h1,
+/*h1, .h1,
 h2, .h2,
 h3, .h3,
 h4, .h4,
@@ -13,7 +13,7 @@ h6, .h6 {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-weight: normal;
     color: #333;
-}
+}*/
 
 
 .footer {
@@ -78,41 +78,3 @@ video#bgvid {
     color: snow;
 }
 
-/*
- * Blog name and description
- */
-
-.blog-header {
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-.blog-title {
-    margin-top: 30px;
-    margin-bottom: 0;
-    font-size: 60px;
-    font-weight: normal;
-}
-.blog-description {
-    font-size: 20px;
-    color: #999;
-}
-
-
-/*
- * Main column and sidebar layout
- */
-
-.blog-main {
-    font-size: 18px;
-    line-height: 1.5;
-}
-
-/*
- * Override Bootstrap's default container.
- */
-
-@media (min-width: 1200px) {
-    .container {
-        width: 970px;
-    }
-}

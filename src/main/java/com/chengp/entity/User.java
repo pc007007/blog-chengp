@@ -7,14 +7,14 @@ import org.hibernate.validator.constraints.Email;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by pc on 3/2/16.
  */
 @Data @NoArgsConstructor @RequiredArgsConstructor(staticName = "of")
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(exclude = "userRole")
+@ToString(exclude = "userRole")
 @Entity
 @Table(name = "users")
 public class User {
@@ -40,9 +40,8 @@ public class User {
     @Column(name = "enabled", nullable = false)
     private boolean enabled;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<UserRole> userRole = new HashSet<UserRole>(0);
-
 
 }

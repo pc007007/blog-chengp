@@ -21,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,7 +80,7 @@ public class IndexController {
 
         model.addAttribute("user", user);
 
-        return "redirect:/account";
+        return "redirect:/account/blog";
     }
 
     @RequestMapping("/login")
@@ -87,7 +88,7 @@ public class IndexController {
         return "account/login";
     }
 
-    @RequestMapping("/account")
+    @RequestMapping("/account/hero")
     public String showAccount(Model model, Principal principal) {
 
         model.addAttribute("username", principal.getName());
@@ -119,7 +120,7 @@ public class IndexController {
     @RequestMapping("/account/blog")
     public String showBlogFromFeed(Model model) {
 
-        Blog blog = blogService.findOneByTitle("Dota 2");
+        Blog blog = blogService.findFirstOneByTitle("Dota 2");
 
         blog.setItems(itemService.findItems(blog));
 
@@ -135,6 +136,14 @@ public class IndexController {
         blogService.loadFeedByURL("http://blog.dota2.com/feed/");
 
         return "succeed";
+    }
+
+    @RequestMapping("/account/subscribe")
+    public String subscribe(Principal principal, Model model) {
+
+        model.addAttribute("username", principal.getName());
+
+        return "blog/subscribe";
     }
 
 }

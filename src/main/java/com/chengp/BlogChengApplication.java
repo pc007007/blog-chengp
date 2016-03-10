@@ -17,12 +17,17 @@ public class BlogChengApplication {
 
 /*    @Bean
     CommandLineRunner init(UserRepository userRepository, UserRoleRepository userRoleRepository,UserService userService) {
-        return (evt) -> Arrays.asList(
+
+        User user = userRepository.save(new User().of("admin","pc@gmail.com","123456",true));
+        userRoleRepository.save(new UserRole().of(user,"ROLE_ADMIN"));
+
+
+		return (evt) -> Arrays.asList(
                 "pc123,pc456,pc789".split(","))
                 .forEach(
                         a -> {
-                            User user = userRepository.save(new User().of(a,"pc@gmail.com","123456",true));
-                            userRoleRepository.save(new UserRole().of(user,"USER"));
+                            User user2 = userRepository.save(new User().of(a,"pc@gmail.com","123456",true));
+                            userRoleRepository.save(new UserRole().of(user2,"ROLE_USER"));
                         });
     }*/
 

@@ -15,7 +15,7 @@
 <div layout:fragment="header">
     <div class="container">
         <div class="page-header">
-            <h2 class="header"><strong>Blog</strong></h2>
+            <h2 class="header"><strong>Subscribe</strong></h2>
         </div>
     </div>
 </div>
@@ -23,15 +23,7 @@
 
 <div layout:fragment="content">
 
-                <div th:each="item : ${blog.items}">
-                    <h1 th:text="${item.title}">title</h1>
-                    <p>Posted by <a href="#" th:text="${blog.title}">title</a> on
-                        <span th:text="${#dates.format(item.pubDate,'dd MMM yyyy HH:mm')}">September 24, 2014</span>
-                    </p>
-
-                    <h3 th:utext="${item.content}">Problems look mighty small from 150 miles up</h3>
-                    <hr>
-                </div>
+    <div th:text="${username}"></div>
 </div>
 
 <div layout:fragment="footer">

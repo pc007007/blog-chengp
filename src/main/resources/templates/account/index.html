@@ -18,43 +18,46 @@
 <div layout:fragment="header">
     <div class="container">
         <div class="page-header">
-            <h2 class="header"><strong>Hero list</strong></h2>
-
-            <div sec:authorize="hasRole('ADMIN')">
-                1.<a href="#" th:href="@{/update/heroes}">update hero information from valve servers</a>
-                <br>
-                2.<a href="#" th:href="@{/update/blog}">update blog information from valve feed</a>
-            </div>
+            <h2 class="header"><strong>Hero</strong></h2>
         </div>
 
     </div>
 </div>
 
 
-
 <div layout:fragment="content">
+
+    <div sec:authorize="hasRole('ADMIN')">
+        1.<a href="#" th:href="@{/update/heroes}">update hero information from valve servers</a>
+        <br>
+        2.<a href="#" th:href="@{/update/blog}">update blog information from valve feed</a>
+    </div>
+
     <div ng-controller="Hello">
-        <div class="container">
-            <table class="table table-striped table-hover">
-                <thead>
-                <tr>
-                    <td>Hero</td>
-                    <td>Name</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="hero in heroes">
-                    <td><img class="img-thumbnail" src="{{hero.pic}}"/></td>
-                    <td>{{hero.localized_name}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <td>Hero</td>
+                <td>Name</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="hero in heroes">
+                <td><img class="img-thumbnail" src="{{hero.pic}}"/></td>
+                <td>{{hero.localized_name}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
 
 <div layout:fragment="footer">
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted">&copy; 2015 Cheng</p>
+        </div>
+    </footer>
 </div>
 
 </body>

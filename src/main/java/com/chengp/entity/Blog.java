@@ -1,6 +1,8 @@
 package com.chengp.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,6 +14,8 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "blog")
+@EqualsAndHashCode(exclude = "items")
+@ToString(exclude = "items")
 public class Blog {
 
     @Id
