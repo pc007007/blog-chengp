@@ -21,6 +21,7 @@ import java.util.Set;
  * Created by pc on 3/4/16.
  */
 @Service("userDetailsService")
+@Transactional
 public class MyUserDetailService implements UserDetailsService{
 
     @Autowired

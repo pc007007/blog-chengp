@@ -13,8 +13,8 @@ import java.util.*;
  * Created by pc on 3/2/16.
  */
 @Data @NoArgsConstructor @RequiredArgsConstructor(staticName = "of")
-@EqualsAndHashCode(exclude = "userRole")
-@ToString(exclude = "userRole")
+@EqualsAndHashCode(exclude = {"userRole","blogs"})
+@ToString(exclude = {"userRole","blogs"})
 @Entity
 @Table(name = "users")
 public class User {
@@ -44,4 +44,7 @@ public class User {
     @JsonManagedReference
     private Set<UserRole> userRole = new HashSet<UserRole>(0);
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Blog> blogs;
 }

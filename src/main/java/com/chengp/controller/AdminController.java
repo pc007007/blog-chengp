@@ -39,14 +39,6 @@ public class AdminController {
         ).get();
     }
 
-/*    @RequestMapping(value = "/users/{username}", method = RequestMethod.GET)
-    public User findUser(@PathVariable String username) {
-
-        this.validateUser(username);
-        return userService.findOne(username).get();
-    }*/
-
-
     private void validateUser(String username) {
         this.userService.findOne(username).orElseThrow(
                 () -> new UserNotFoundException(username));

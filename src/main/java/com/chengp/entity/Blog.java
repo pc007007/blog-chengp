@@ -1,5 +1,7 @@
 package com.chengp.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -14,11 +16,11 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "blog")
-@EqualsAndHashCode(exclude = "items")
-@ToString(exclude = "items")
+@EqualsAndHashCode(exclude = {"items","user"})
+@ToString(exclude = {"items","user"})
 public class Blog {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "title")
@@ -30,6 +32,15 @@ public class Blog {
     @Column(name = "publish_date")
     private Date pubDate;
 
+    @Column(name = "url")
+    private Integer url;
+
     @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Item> items;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
+    private User user;
 }

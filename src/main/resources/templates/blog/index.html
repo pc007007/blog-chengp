@@ -18,20 +18,28 @@
             <h2 class="header"><strong>Blog</strong></h2>
         </div>
     </div>
+
 </div>
 
 
 <div layout:fragment="content">
 
-                <div th:each="item : ${blog.items}">
-                    <h1 th:text="${item.title}">title</h1>
-                    <p>Posted by <a href="#" th:text="${blog.title}">title</a> on
-                        <span th:text="${#dates.format(item.pubDate,'dd MMM yyyy HH:mm')}">September 24, 2014</span>
-                    </p>
+    <ul class="nav nav-tabs">
+        <li th:class="${blog1.id == blog.id} ? 'active':''" role="presentation" th:each="blog1 : ${blogs}">
+            <a href="#" th:href="@{'/account/blog/'+${blog1.id}}" th:text="${blog1.title}">Home</a>
+        </li>
+    </ul>
 
-                    <h3 th:utext="${item.content}">Problems look mighty small from 150 miles up</h3>
-                    <hr>
-                </div>
+    <div th:each="item : ${blog.items}">
+        <h1 th:text="${item.title}">title</h1>
+        <p>Posted by <a href="#" th:text="${blog.title}">title</a> on
+            <span th:text="${#dates.format(item.pubDate,'dd MMM yyyy HH:mm')}">September 24, 2014</span>
+        </p>
+
+        <h3 th:utext="${item.content}">Problems look mighty small from 150 miles up</h3>
+        <hr>
+    </div>
+
 </div>
 
 <div layout:fragment="footer">

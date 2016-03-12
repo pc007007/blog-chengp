@@ -23,8 +23,35 @@
 
 <div layout:fragment="content">
 
-    <div th:text="${username}"></div>
+    <div th:text="'hello, '+${username}">username</div>
+
+    <h2>Subscribed</h2>
+    <div class="row">
+        <div th:each="blog : ${blogs}">
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <h3 th:text="${blog.title}" style="height: 50px ">blog title</h3>
+                        <p th:text="${#dates.format(blog.pubDate,'dd MMM yyyy HH:mm')}">blog published date</p>
+                        <div th:utext="${blog.items[0].description}" style="height: 200px"></div>
+                        <p><a href="#" th:href="@{'/account/subscribe/remove/'+${blog.url}}"
+                              class="btn btn-danger" role="button">Unsubscribe</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    You can Add something from here:<br>
+    <a class="btn btn-success" href="#" th:href="@{/account/subscribe/add/1}">Dota 2</a>
+    <a class="btn btn-success" href="#" th:href="@{/account/subscribe/add/2}">GosuGamers Dota 2</a>
+    <a class="btn btn-success" href="#" th:href="@{/account/subscribe/add/3}">GosuGamers Dota</a>
+    <a class="btn btn-success" href="#" th:href="@{/account/subscribe/add/4}">GosuGamers Global</a>
+<!--    </div>-->
+
 </div>
+
 
 <div layout:fragment="footer">
     <footer class="footer">

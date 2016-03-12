@@ -4,18 +4,14 @@ import com.chengp.entity.Blog;
 import com.chengp.entity.Hero;
 import com.chengp.entity.SteamMessage;
 import com.chengp.entity.User;
-import com.chengp.service.BlogService;
-import com.chengp.service.Dota2Service;
-import com.chengp.service.ItemService;
-import com.chengp.service.UserService;
+import com.chengp.service.*;
+import com.chengp.util.WebUtil;
+import com.sun.tools.internal.ws.wsdl.document.jaxws.Exception;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +19,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by pc on 3/2/16.
@@ -41,6 +38,15 @@ public class IndexController {
 
     @Autowired
     private ItemService itemService;
+
+    @Autowired
+    private RssService rssService;
+
+    @ModelAttribute("blog")
+    public Blog constructBlog() {
+        return new Blog();
+    }
+
 
     @RequestMapping("/")
     public String home() {
@@ -118,14 +124,27 @@ public class IndexController {
     }
 
     @RequestMapping("/account/blog")
-    public String showBlogFromFeed(Model model) {
+    public String showBlogFromFeed(Model model, Principal principal) {
 
-        Blog blog = blogService.findFirstOneByTitle("Dota 2");
+        blogService.findFirstOne(principal.getName())
+                .ifPresent(blog -> model.addAttribute("blog", blog));
 
-        blog.setItems(itemService.findItems(blog));
+        List<Blog> blogs = blogService.findAll(principal.getName());
 
-        model.addAttribute("blog", blog);
+        model.addAttribute("blogs", blogs);
 
+        return "blog/index";
+    }
+
+    @RequestMapping("/account/blog/{id}")
+    public String showBlogFromFeedById(@PathVariable("id") Integer id, Model model, Principal principal) {
+
+        String username = principal.getName();
+        blogService.findOne(username, id).ifPresent(blog -> model.addAttribute("blog", blog));
+
+        List<Blog> blogs = blogService.findAll(principal.getName());
+
+        model.addAttribute("blogs", blogs);
 
         return "blog/index";
     }
@@ -133,7 +152,7 @@ public class IndexController {
     @RequestMapping("/update/blog")
     public @ResponseBody String updateBlog() {
 
-        blogService.loadFeedByURL("http://blog.dota2.com/feed/");
+        /*rssService.loadFeedByURL("http://blog.dota2.com/feed/");*/
 
         return "succeed";
     }
@@ -141,9 +160,38 @@ public class IndexController {
     @RequestMapping("/account/subscribe")
     public String subscribe(Principal principal, Model model) {
 
+        String username = principal.getName();
+
+        List<Blog> blogs = blogService.findAll(username);
+
         model.addAttribute("username", principal.getName());
+        model.addAttribute("blogs", blogs);
 
         return "blog/subscribe";
     }
 
+    @RequestMapping("/account/subscribe/add/{urlNumber}")
+    public String addSubscribe(@PathVariable("urlNumber") Integer urlNumber, Principal principal){
+
+        User user = userService.findOne(principal.getName()).get();
+
+        String url = WebUtil.findURL(urlNumber);
+
+        Blog blog = rssService.loadFeedByURL(url, user);
+        blog.setUrl(urlNumber);
+
+        blogService.save(blog);
+
+        return "redirect:/account/subscribe";
+    }
+
+    @RequestMapping("/account/subscribe/remove/{urlNumber}")
+    public String removeSubscribe(@PathVariable("urlNumber") Integer urlNumber, Principal principal){
+
+        User user = userService.findOne(principal.getName()).get();
+
+        blogService.delete(urlNumber,user);
+
+        return "redirect:/account/subscribe";
+    }
 }
