@@ -36,12 +36,6 @@ public class IndexController {
     @Autowired
     private BlogService blogService;
 
-    @Autowired
-    private ItemService itemService;
-
-    @Autowired
-    private RssService rssService;
-
     @ModelAttribute("blog")
     public Blog constructBlog() {
         return new Blog();
@@ -123,31 +117,6 @@ public class IndexController {
         return String.valueOf(!userService.findOne(username).isPresent());
     }
 
-    @RequestMapping("/account/blog")
-    public String showBlogFromFeed(Model model, Principal principal) {
-
-        blogService.findFirstOne(principal.getName())
-                .ifPresent(blog -> model.addAttribute("blog", blog));
-
-        List<Blog> blogs = blogService.findAll(principal.getName());
-
-        model.addAttribute("blogs", blogs);
-
-        return "blog/index";
-    }
-
-    @RequestMapping("/account/blog/{id}")
-    public String showBlogFromFeedById(@PathVariable("id") Integer id, Model model, Principal principal) {
-
-        String username = principal.getName();
-        blogService.findOne(username, id).ifPresent(blog -> model.addAttribute("blog", blog));
-
-        List<Blog> blogs = blogService.findAll(principal.getName());
-
-        model.addAttribute("blogs", blogs);
-
-        return "blog/index";
-    }
 
     @RequestMapping("/update/blog")
     public @ResponseBody String updateBlog() {
@@ -157,41 +126,4 @@ public class IndexController {
         return "succeed";
     }
 
-    @RequestMapping("/account/subscribe")
-    public String subscribe(Principal principal, Model model) {
-
-        String username = principal.getName();
-
-        List<Blog> blogs = blogService.findAll(username);
-
-        model.addAttribute("username", principal.getName());
-        model.addAttribute("blogs", blogs);
-
-        return "blog/subscribe";
-    }
-
-    @RequestMapping("/account/subscribe/add/{urlNumber}")
-    public String addSubscribe(@PathVariable("urlNumber") Integer urlNumber, Principal principal){
-
-        User user = userService.findOne(principal.getName()).get();
-
-        String url = WebUtil.findURL(urlNumber);
-
-        Blog blog = rssService.loadFeedByURL(url, user);
-        blog.setUrl(urlNumber);
-
-        blogService.save(blog);
-
-        return "redirect:/account/subscribe";
-    }
-
-    @RequestMapping("/account/subscribe/remove/{urlNumber}")
-    public String removeSubscribe(@PathVariable("urlNumber") Integer urlNumber, Principal principal){
-
-        User user = userService.findOne(principal.getName()).get();
-
-        blogService.delete(urlNumber,user);
-
-        return "redirect:/account/subscribe";
-    }
 }

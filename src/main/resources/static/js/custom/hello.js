@@ -6,7 +6,9 @@ var myapp = angular.module('myapp', []);
 
 myapp.controller("Hello",function($scope, $http){
 
-    /*$http.get('https://api.steampowered.com/IEconDOTA2_570/GetHeroes/V001/?key=E5A0A27C28A1F857062866825AF10520');*/
+    /*$http.get('https://api.steampowered.com/IEconDOTA2_570/GetHeroes/V001/?key=E5A0A27C28A1F857062866825AF10520');
+    * 144692153
+    * */
 
     var url = "/dota2/heroes";
     $http({

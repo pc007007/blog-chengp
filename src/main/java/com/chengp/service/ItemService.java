@@ -16,11 +16,4 @@ import java.util.List;
 @Transactional
 public class ItemService {
 
-    @Autowired
-    private ItemRepository itemRepository;
-
-    public List<Item> findItems(Blog blog){
-
-        return itemRepository.findByBlog(blog);
-    }
 }

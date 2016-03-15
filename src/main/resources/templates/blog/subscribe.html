@@ -35,21 +35,17 @@
                         <p th:text="${#dates.format(blog.pubDate,'dd MMM yyyy HH:mm')}">blog published date</p>
                         <div th:utext="${blog.items[0].description}" style="height: 200px"></div>
                         <p><a href="#" th:href="@{'/account/subscribe/remove/'+${blog.url}}"
-                              class="btn btn-danger" role="button">Unsubscribe</a>
-                        </p>
+                              class="btn btn-danger" role="button">Unsubscribe</a></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
     You can Add something from here:<br>
     <a class="btn btn-success" href="#" th:href="@{/account/subscribe/add/1}">Dota 2</a>
     <a class="btn btn-success" href="#" th:href="@{/account/subscribe/add/2}">GosuGamers Dota 2</a>
     <a class="btn btn-success" href="#" th:href="@{/account/subscribe/add/3}">GosuGamers Dota</a>
     <a class="btn btn-success" href="#" th:href="@{/account/subscribe/add/4}">GosuGamers Global</a>
-<!--    </div>-->
-
 </div>
 
 

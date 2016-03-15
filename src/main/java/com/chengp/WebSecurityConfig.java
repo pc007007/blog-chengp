@@ -17,6 +17,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final String[] publicPath = {"/", "/index", "/css/**", "/js/**", "/video/**","/account/**"};
+
     @Autowired
     @Qualifier("userDetailsService")
     private UserDetailsService userDetailsService;
@@ -25,11 +27,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/index"
-                            ,"/account/**"
-                            ,"/css/**", "/js/**", "/video/**").permitAll()
+                .antMatchers(publicPath).permitAll()
                 .antMatchers("/admin/**").access("hasRole('ADMIN')")
-                .antMatchers(HttpMethod.DELETE,"/admin/**").access("hasRole('ADMIN')")
+/*                .antMatchers(HttpMethod.DELETE,"/admin").access("hasRole('ADMIN')")*/
                 .anyRequest().authenticated()
             .and()
                 .formLogin()

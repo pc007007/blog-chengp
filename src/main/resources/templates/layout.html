@@ -99,11 +99,9 @@
     header
 </div>
 
-
 <div class="container">
     <div class="row" th:class="${#httpServletRequest.getRequestURI().startsWith('/index') ? 'hidden':''}">
         <div class="col-md-2" id="leftCol">
-
             <ul class="nav nav-stacked" id="sidebar">
                 <li><a href="#sec0" th:href="@{/account/blog}">Blog</a></li>
                 <li><a href="#sec1" th:href="@{/account/hero}">Hero</a></li>
@@ -111,22 +109,18 @@
                 <li><a href="#sec3">Section 3</a></li>
                 <li><a href="#sec4">Section 4</a></li>
             </ul>
-
         </div>
         <div class="col-md-8" id="mainCol">
 
+
             <div layout:fragment="content">
-                entern content here
+                enter content here
             </div>
 
-        </div>
 
+        </div>
     </div>
 </div>
-
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
-        th:src="@{/js/bootstrapjs/bootstrap.min.js}"></script>
 
 <div layout:fragment="footer">
     <footer class="footer">
@@ -135,6 +129,9 @@
         </div>
     </footer>
 </div>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        th:src="@{/js/bootstrapjs/bootstrap.min.js}"></script>
 
 </body>
 </html>
